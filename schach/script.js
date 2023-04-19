@@ -45,4 +45,9 @@ function movePiece(square) {
       square.innerHTML = pieces[selectedSquare.innerHTML];
     }
     selectedSquare.classList.remove("selected");
-  } else if (square.innerHTML
+  } else if (square.innerHTML != "") {
+    square.classList.add("selected");
+  }
+}
+
+drawBoard();
