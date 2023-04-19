@@ -1,83 +1,37 @@
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
+var board = Chessboard('board', {
+  draggable: true,
+  position: 'start',
+  onDrop: onDrop
+});
 
-var snake = [{x: 10, y: 10}];
-var direction = "right";
-var food = {x: 0, y: 0};
+var engine = new Worker('stockfish.js');
 
-function drawSnake() {
-  ctx.fillStyle = "green";
-  snake.forEach(function(segment) {
-    ctx.fillRect(segment.x * 10, segment.y * 10, 10, 10);
-  });
-}
-
-function moveSnake() {
-  var head = snake[0];
-  if (direction == "right") {
-    var newHead = {x: head.x + 1, y: head.y};
-  } else if (direction == "left") {
-    var newHead = {x: head.x - 1, y: head.y};
-  } else if (direction == "up") {
-    var newHead = {x: head.x, y: head.y - 1};
-  } else if (direction == "down") {
-    var newHead = {x: head.x, y: head.y + 1};
+function onDrop(source, target) {
+  var move = board.move({from: source, to: target});
+  if (move === null) {
+    return 'snapback';
   }
-  snake.unshift(newHead);
-  if (newHead.x == food.x && newHead.y == food.y) {
-    generateFood();
-  } else {
-    snake.pop();
+  if (board.game_over()) {
+    alert("Game over");
+    return;
   }
+  engine.postMessage('position fen ' + board.fen());
+  engine.postMessage('go depth 3');
 }
 
-function generateFood() {
-  var x = Math.floor(Math.random() * 40);
-  var y = Math.floor(Math.random() * 40);
-  food = {x: x, y: y};
-}
-
-function drawFood() {
-  ctx.fillStyle = "red";
-  ctx.fillRect(food.x * 10, food.y * 10, 10, 10);
-}
-
-function checkCollision() {
-  var head = snake[0];
-  if (head.x < 0 || head.x >= 40 || head.y < 0 || head.y >= 40) {
-    return true;
-  }
-  for (var i = 1; i < snake.length; i++) {
-    if (head.x == snake[i].x && head.y == snake[i].y) {
-      return true;
+engine.onmessage = function(event) {
+  var match = event.data.match(/bestmove ([a-h][1-8])([a-h][1-8])/);
+  if (match) {
+    var source = match[1];
+    var target = match[2];
+    board.move(source + '-' + target);
+    if (board.game_over()) {
+      alert("Game over");
+      return;
     }
   }
-  return false;
-}
+};
 
-function gameLoop() {
-  moveSnake();
-  if (checkCollision()) {
-    clearInterval(intervalId);
-    alert("Game Over!");
-  } else {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawSnake();
-    drawFood();
-  }
-}
-
-generateFood();
-var intervalId = setInterval(gameLoop, 100);
-
-document.addEventListener("keydown", function(event) {
-  if (event.keyCode == 37 && direction != "right") {
-    direction = "left";
-  } else if (event.keyCode == 38 && direction != "down") {
-    direction = "up";
-  } else if (event.keyCode == 39 && direction != "left") {
-    direction = "right";
-  } else if (event.keyCode == 40 && direction != "up") {
-    direction = "down";
-  }
-});
+engine.postMessage('uci');
+engine.postMessage('ucinewgame');
+engine.postMessage('position startpos');
