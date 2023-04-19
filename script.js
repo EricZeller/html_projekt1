@@ -1,37 +1,48 @@
-var board = Chessboard('board', {
-  draggable: true,
-  position: 'start',
-  onDrop: onDrop
-});
+var board = document.getElementById("board");
 
-var engine = new Worker('stockfish.js');
-
-function onDrop(source, target) {
-  var move = board.move({from: source, to: target});
-  if (move === null) {
-    return 'snapback';
-  }
-  if (board.game_over()) {
-    alert("Game over");
-    return;
-  }
-  engine.postMessage('position fen ' + board.fen());
-  engine.postMessage('go depth 3');
-}
-
-engine.onmessage = function(event) {
-  var match = event.data.match(/bestmove ([a-h][1-8])([a-h][1-8])/);
-  if (match) {
-    var source = match[1];
-    var target = match[2];
-    board.move(source + '-' + target);
-    if (board.game_over()) {
-      alert("Game over");
-      return;
-    }
-  }
+var pieces = {
+  'r': '♜',
+  'n': '♞',
+  'b': '♝',
+  'q': '♛',
+  'k': '♚',
+  'p': '♟',
+  'R': '♖',
+  'N': '♘',
+  'B': '♗',
+  'Q': '♕',
+  'K': '♔',
+  'P': '♙'
 };
 
-engine.postMessage('uci');
-engine.postMessage('ucinewgame');
-engine.postMessage('position startpos');
+var position = [  'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r',  'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  '',  'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P',  'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'];
+
+function drawBoard() {
+  for (var i = 0; i < 64; i++) {
+    var square = document.createElement("div");
+    square.className = "square " + ((i + Math.floor(i / 8)) % 2 ? "white" : "black");
+    square.id = i;
+    square.innerHTML = pieces[position[i]];
+    square.onclick = function() {
+      movePiece(this);
+    };
+    board.appendChild(square);
+  }
+}
+
+function movePiece(square) {
+  var selectedSquare = document.getElementsByClassName("selected")[0];
+  if (selectedSquare) {
+    if (square == selectedSquare) {
+      square.classList.remove("selected");
+    } else if (square.innerHTML != "") {
+      if (square.classList.contains("piece")) {
+        selectedSquare.innerHTML = square.innerHTML;
+        square.innerHTML = "";
+      }
+    } else {
+      selectedSquare.innerHTML = "";
+      square.innerHTML = pieces[selectedSquare.innerHTML];
+    }
+    selectedSquare.classList.remove("selected");
+  } else if (square.innerHTML
