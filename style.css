@@ -1,0 +1,30 @@
+#board {
+  width: 600px;
+  height: 600px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #eee;
+}
+
+.square {
+  width: 75px;
+  height: 75px;
+  border: 1px solid #999;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
+}
+
+.white {
+  background-color: #fff;
+}
+
+.black {
+  background-color: #999;
+}
+
+.piece {
+  cursor: pointer;
+}
