@@ -22,7 +22,7 @@ function drawBoard() {
     var square = document.createElement("div");
     square.className = "square " + ((i + Math.floor(i / 8)) % 2 ? "white" : "black");
     square.id = i;
-    square.innerHTML = pieces[position[i]] || '';
+    square.innerHTML = position[i] !== '' ? pieces[position[i]] : '';
     square.onclick = function() {
       movePiece(this);
     };
@@ -36,11 +36,14 @@ function movePiece(square) {
     if (square == selectedSquare) {
       square.classList.remove("selected");
     } else if (square.innerHTML != "") {
-      if (square.classList.contains("piece")) {
-        selectedSquare.innerHTML = square.innerHTML;
-        square.innerHTML = "";
+      if (square.classList.contains("piece") && square.innerHTML != selectedSquare.innerHTML) {
+        // ungültiger Zug, da auf dem ausgewählten Feld bereits eine gegnerische Figur steht
+        return;
       }
+      selectedSquare.innerHTML = square.innerHTML;
+      square.innerHTML = "";
     } else {
+      // hier sollten Sie prüfen, ob der Zug gültig ist
       selectedSquare.innerHTML = "";
       square.innerHTML = pieces[selectedSquare.innerHTML];
     }
@@ -50,4 +53,8 @@ function movePiece(square) {
   }
 }
 
-drawBoard();
+
+
+window.onload = function() {
+  drawBoard();
+};
