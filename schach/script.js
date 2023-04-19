@@ -22,7 +22,7 @@ function drawBoard() {
     var square = document.createElement("div");
     square.className = "square " + ((i + Math.floor(i / 8)) % 2 ? "white" : "black");
     square.id = i;
-    square.innerHTML = pieces[position[i]];
+    square.innerHTML = pieces[position[i]] || '';
     square.onclick = function() {
       movePiece(this);
     };
