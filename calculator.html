@@ -2,15 +2,18 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Snake</title>
+    <title>Schach</title>
+    <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css" />
+    <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+    <script src="https://unpkg.com/stockfish@13.0.0/stockfish.js"></script>
     <style>
-      canvas {
-        border: 1px solid black;
+      #board {
+        width: 400px;
       }
     </style>
   </head>
   <body>
-    <canvas id="canvas" width="400" height="400"></canvas>
+    <div id="board"></div>
     <script src="script.js"></script>
   </body>
 </html>
