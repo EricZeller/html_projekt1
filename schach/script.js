@@ -37,13 +37,11 @@ function movePiece(square) {
       square.classList.remove("selected");
     } else if (square.innerHTML != "") {
       if (square.classList.contains("piece") && square.innerHTML != selectedSquare.innerHTML) {
-        // ungültiger Zug, da auf dem ausgewählten Feld bereits eine gegnerische Figur steht
         return;
       }
       selectedSquare.innerHTML = square.innerHTML;
       square.innerHTML = "";
     } else {
-      // hier sollten Sie prüfen, ob der Zug gültig ist
       selectedSquare.innerHTML = "";
       square.innerHTML = pieces[selectedSquare.innerHTML];
     }
