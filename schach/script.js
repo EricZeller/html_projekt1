@@ -42,7 +42,7 @@ function movePiece(square) {
       selectedSquare.innerHTML = square.innerHTML;
       square.innerHTML = "";
     } else {
-      selectedSquare.innerHTML = "";
+      selectedSquare.innerHTML = " ";
       square.innerHTML = pieces[selectedSquare.innerHTML];
     }
     selectedSquare.classList.remove("selected");
