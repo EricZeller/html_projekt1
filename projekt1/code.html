@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="formatcode.css">
+    <link rel="icon" type="image/x-icon" href="bilder/favicon.ico">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <title>Coden | Eric's Gitarrenblog</title>
+</head>
+
+<body>
+    <div class="titel">
+
+        <a href="index-zeller.html"><img src="bilder/titel.png" width="650vw" height="auto" style="max-width:80%;"
+                id="logo" /></a>
+        <br>
+        <h1>✨Coden✨</h1>
+        <img src="bilder/sun.png" id="icon">
+        <script src="script.js"></script>
+    </div>
+    <div id="sideNavi" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+        <a href="western.html">
+            <img src="bilder/western1.jpg" alt="Westerngitarren" width="100%"
+                style="max-width:175px;" /><br>Westerngitarren
+        </a>
+        <p></p>
+        <a href="konzert.html">
+            <img src="bilder/konzert1.jpg" alt="Konzertgitarren" width="100%"
+                style="max-width:175px;" /><br>Konzertgitarren
+        </a>
+    </div>
+
+    <div class="inhalt">
+        Hier ein Code für Cody:
+        <iframe srcdoc='
+    <html>
+      <head>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/github-dark.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+      </head>
+      <body>
+        <pre><code class="java">import java.io.*;
+
+            public class tuermehanoi {
+              // Hauptprogramm main  
+              
+              public static void main (String ars[])throws IOException{
+                InputStreamReader Input = new InputStreamReader(System.in);
+                BufferedReader DataIn = new BufferedReader(Input);
+                
+                System.out.println("Bitte Anzahl der Scheiben eingeben:");
+                
+                int n = 0;
+                n = eingabe(DataIn, n);
+                
+                int gerade = 0;
+                gerade = abfrage(n);
+                
+                verschiebeArt(gerade, n);
+              }
+              
+              //Unterprogramm Abfrage zum pr�fen, ob n gerade oder ungerade ist
+              public static int abfrage (int pn){
+                int pgerade = 0;
+                if (pn%2 == 1) {
+                  pgerade = 0;                                                                                                                                                  
+                } else {
+                  pgerade = 1;       
+                } // end of if-else// end of if
+                return pgerade;
+              }
+              
+              //Unterprogramm zum festlegen welcher Startstab
+              public static void verschiebeArt (int pgerade, int pn){
+                if (pgerade == 1) {
+                  cba(pn);
+                } else {
+                  bca(pn);
+                } // end of if-else
+              }
+                   
+              public static int obersteScheibe (int i, int x, int pn){
+                if (x == 0 && i < pn) {
+                  i++;
+                } // end of if
+                return i;
+              } 
+            
+              public static int vergleiche_abc1 (int x1, int x2, int pn){
+                int a = 0;
+                
+                if (x1 == 0 || x2 == 0) {
+                  if (x1 < x2) {
+                    a = x2;
+                  } // end of if-else
+                } else {
+                  if (x1 > x2) {
+                    a = x2;
+                  } // end of if-else
+                } // end of if-else 
+                return a;
+              }
+              
+              public static int vergleiche_abc2 (int x1, int x2, int pn){
+                int b = 0;
+                
+                if (x1 == 0 || x2 == 0) {
+                  if (x1 > x2) {
+                    b = x1;
+                  }
+                } else {
+                  if (x1 < x2) {
+                    b = x1;
+                  }
+                } // end of if-else 
+                return b;
+              }
+              
+              public static void cba (int pn){
+                int [] sA = new int [pn*2];
+                int [] sB = new int [pn*2];
+                int [] sC = new int [pn*2];
+                int i = 0;
+                int j = 0;
+                int k = 0;
+                int l = 0;
+                
+                //Initialisierung
+                if (l == 0){
+                  for (i = 0; i < pn; i++) {       
+                    sA [i] = i+1;
+                  }
+                  
+                  for (int z = 0;z < pn ;z++ ) {
+                    ausgabe(pn,sA[z]);
+                    ausgabe(pn,sB[z]);
+                    ausgabe(pn,sC[z]);
+                    System.out.println(" ");
+                  } // end of for
+                  System.out.println(" ");
+                  l++;
+                } // end of if
+                do {
+                  if (sA[pn-1] > 0 || sB[pn-1] > 0) {
+                    i = 0;
+                    j = 0;
+                    for (int z = 0;z < pn ;z++) {
+                      i = obersteScheibe(i, sA[z], pn);
+                      j = obersteScheibe(j, sB[z], pn);
+                    } // end of for
+                    
+                    if (i > 0) {
+                      sA[i-1] = vergleiche_abc1 (sA[i], sB[j], pn);
+                    } // end of if
+                    
+                    if (j > 0) {
+                      sB[j-1] = vergleiche_abc2 (sA[i], sB[j], pn);
+                    } // end of if
+                    
+                    if (i > 0) {
+                      if (sA[i-1] != 0) {
+                        sB[j] = 0;
+                      } else {
+                        sA[i] = 0;
+                      } // end of if-else
+                    } else {
+                      sA[i] = 0;
+                    } // end of if-else
+                    
+                    for (int z = 0;z < pn ;z++) {
+                      ausgabe(pn,sA[z]);
+                      ausgabe(pn,sB[z]);
+                      ausgabe(pn,sC[z]);
+                      System.out.println(" ");
+                    } // end of for
+                    System.out.println(" ");
+                  } // end of if
+                  
+                  if (sA[pn-1] > 0 || sB[pn-1] > 0) {
+                    i = 0;
+                    k = 0;
+                    for (int z = 0;z < pn ;z++) {
+                      i = obersteScheibe(i, sA[z], pn);
+                      k = obersteScheibe(k, sC[z], pn);
+                    } // end of for
+                    
+                    if (i > 0) {
+                      sA[i-1] = vergleiche_abc1 (sA[i], sC[k], pn);
+                    } // end of if
+                    
+                    if (k > 0) {
+                      sC[k-1] = vergleiche_abc2 (sA[i], sC[k], pn);
+                    } // end of if
+                    
+                    if (sA[i-1] != 0) {
+                      sC[k] = 0;
+                    } else {
+                      sA[i] = 0;
+                    } // end of if-else
+                    
+                    for (int z = 0;z < pn ;z++) {
+                      ausgabe(pn,sA[z]);
+                      ausgabe(pn,sB[z]);
+                      ausgabe(pn,sC[z]);
+                      System.out.println(" ");
+                    } // end of for
+                    System.out.println(" ");
+                  } // end of if
+                  
+                  if (sA[pn-1] > 0 || sB[pn-1] > 0) {  
+                    j = 0;
+                    k = 0;
+                    for (int z = 0;z < pn ;z++) {
+                      j = obersteScheibe(j, sB[z], pn);
+                      k = obersteScheibe(k, sC[z], pn);
+                    } // end of for
+                    
+                    if (j > 0) {
+                      sB[j-1] = vergleiche_abc1 (sB[j], sC[k], pn);
+                    } // end of if
+                    
+                    if (k > 0) {
+                      sC[k-1] = vergleiche_abc2 (sB[j], sC[k], pn);
+                    } // end of if
+                    
+                    if (sB[j-1] != 0) {
+                      sC[k] = 0;
+                    } else {
+                      sB[j] = 0;
+                    } // end of if-else
+                    
+                    for (int z = 0;z < pn ;z++) {
+                      ausgabe(pn,sA[z]);
+                      ausgabe(pn,sB[z]);
+                      ausgabe(pn,sC[z]);
+                      System.out.println(" ");
+                    } // end of for
+                    System.out.println(" ");
+                  } // end of if
+                } while (sA[pn-1] > 0 || sB[pn-1] > 0); // end of do-while
+              }
+              
+              public static void bca (int pn){
+                int [] sA = new int [pn*2];
+                int [] sB = new int [pn*2];
+                int [] sC = new int [pn*2];
+                int i = 0;
+                int j = 0;
+                int k = 0;
+                int l = 0;
+                
+                //Initialisierung
+                if (l == 0){
+                  for (i = 0; i < pn; i++) {       
+                    sA [i] = i+1;
+                  }
+                  
+                  for (int z = 0;z < pn ;z++ ) {
+                    ausgabe(pn,sA[z]);
+                    ausgabe(pn,sB[z]);
+                    ausgabe(pn,sC[z]);
+                    System.out.println(" ");
+                  } // end of for
+                  System.out.println(" ");
+                  l++;
+                } // end of if
+                do {
+                  if (sA[pn-1] > 0 || sB[pn-1] > 0) {
+                    i = 0;
+                    k = 0;
+                    for (int z = 0;z < pn ;z++) {
+                      i = obersteScheibe(i, sA[z], pn);
+                      k = obersteScheibe(k, sC[z], pn);
+                    } // end of for
+                    
+                    if (i > 0) {
+                      sA[i-1] = vergleiche_abc1 (sA[i], sC[k], pn);
+                    } // end of if
+                    
+                    if (k > 0) {
+                      sC[k-1] = vergleiche_abc2 (sA[i], sC[k], pn);
+                    } // end of if
+                    
+                    if (i>0) {
+                      if (sA[i-1] != 0) {
+                      sC[k] = 0;
+                    } else {
+                      sA[i] = 0;
+                    } // end of if-else
+                    } else {
+                      sA[i] = 0;
+                    } // end of if-else
+                    
+                    for (int z = 0;z < pn ;z++) {
+                      ausgabe(pn,sA[z]);
+                      ausgabe(pn,sB[z]);
+                      ausgabe(pn,sC[z]);
+                      System.out.println(" ");
+                    } // end of for
+                    System.out.println(" ");
+                  } // end of if
+                  
+                        if (sA[pn-1] > 0 || sB[pn-1] > 0) {
+                    i = 0;
+                    j = 0;
+                    for (int z = 0;z < pn ;z++) {
+                      i = obersteScheibe(i, sA[z], pn);
+                      j = obersteScheibe(j, sB[z], pn);
+                    } // end of for
+                    
+                    if (i > 0) {
+                      sA[i-1] = vergleiche_abc1 (sA[i], sB[j], pn);
+                    } // end of if
+                    
+                    if (j > 0) {
+                      sB[j-1] = vergleiche_abc2 (sA[i], sB[j], pn);
+                    } // end of if
+                    
+                      if (sA[i-1] != 0) {
+                        sB[j] = 0;
+                      } else {
+                        sA[i] = 0;
+                      } // end of if-else
+                    
+                    for (int z = 0;z < pn ;z++) {
+                      ausgabe(pn,sA[z]);
+                      ausgabe(pn,sB[z]);
+                      ausgabe(pn,sC[z]);
+                      System.out.println(" ");
+                    } // end of for
+                    System.out.println(" ");
+                  } // end of if
+                  
+                  if (sA[pn-1] > 0 || sB[pn-1] > 0) {  
+                    j = 0;
+                    k = 0;
+                    for (int z = 0;z < pn ;z++) {
+                      j = obersteScheibe(j, sB[z], pn);
+                      k = obersteScheibe(k, sC[z], pn);
+                    } // end of for
+                    
+                    if (j > 0) {
+                      sB[j-1] = vergleiche_abc1 (sB[j], sC[k], pn);
+                    } // end of if
+                    
+                    if (k > 0) {
+                      sC[k-1] = vergleiche_abc2 (sB[j], sC[k], pn);
+                    } // end of if
+                    
+                    if (sB[j-1] != 0) {
+                      sC[k] = 0;
+                    } else {
+                      sB[j] = 0;
+                    } // end of if-else
+                    
+                    for (int z = 0;z < pn ;z++) {
+                      ausgabe(pn,sA[z]);
+                      ausgabe(pn,sB[z]);
+                      ausgabe(pn,sC[z]);
+                      System.out.println(" ");
+                    } // end of for
+                    System.out.println(" ");
+                  } // end of if
+                } while (sA[pn-1] > 0 || sB[pn-1] > 0); // end of do-while
+              }
+                
+               //Unterprogramm Einlesen                                                                                     
+              public static int eingabe(BufferedReader DataIn, int pn)throws IOException{                               
+                int eingabeLocal;                                                                                       
+                
+                eingabeLocal = Integer.parseInt(DataIn.readLine());                                                  
+                return eingabeLocal;
+              }
+              
+              public static void ausgabe (int pn, int stabwert) {
+                if (stabwert == 0) {
+                  for (int i = pn; i > 0; i--) {
+                    System.out.print(" ");
+                  }  
+                  System.out.print("|");
+                  for (int i = pn; i > 0; i--) {
+                    System.out.print(" ");
+                  }
+                } // end of if
+                if (stabwert > 0) {
+                  for (int i = pn - stabwert; i > 0; i--) {
+                    System.out.print(" ");
+                  } 
+                  System.out.print("|");
+                  for (int i = stabwert * 2 - 1; i > 0; i--) {
+                    System.out.print("_");
+                  }
+                  System.out.print("|");
+                  for (int i = pn - stabwert; i > 0; i--) {
+                    System.out.print(" ");
+                  } 
+                } // end of if
+              }
+            }
+            
+        </code></pre>
+      </body>
+    </html>
+  '></iframe>
+      <p></p>
+      <p></p>
+      <p></p>
+      <p></p>
+    </div>
+
+
+    <div class="unten">
+        <a href="datenschutz.html">Datenschutz</a>
+        <a href="impressum.html">Impressum</a>
+        <a href="kontakt.html">Kontakt</a>
+    </div>
+
+    <span id="burgerMenu" onclick="openNav()"><img src="bilder/Hamburger_icon.png" id="burgerImg"
+            alt="Menu"><br>Menu</span>
+
+    <p></p>
+</body>
+
+</html>
