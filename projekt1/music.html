@@ -1,69 +1,43 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="format.css">
-    <link rel="icon" type="image/x-icon" href="bilder/favicon.ico">
-    <title>Musik | Eric's Gitarrenblog</title>
+  <title>Spotify Suchfunktion</title>
 </head>
-
 <body>
-    <div class="titel">
-        <a href="index-zeller.html"><img src="bilder/titel.png" width="650vw" height="auto" style="max-width:80%;"
-                id="logo" /></a>
-        <br>
-        <h1>Musik</h1>
-        <img src="bilder/sun.png" id="icon">
-        <script src="script.js"></script>
-    </div>
+  <form id="searchForm" onsubmit="searchSpotify(event)">
+    <input type="text" id="query" placeholder="Suche nach einem Song">
+    <button type="submit">Suchen</button>
+  </form>
 
-    <div id="sideNavi" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <div id="results"></div>
 
-        <a href="western.html">
-            <img src="bilder/western1.jpg" alt="Westerngitarren" width="100%"
-                style="max-width:175px;" /><br>Westerngitarren
-        </a>
-        <p></p>
-        <a href="konzert.html">
-            <img src="bilder/konzert1.jpg" alt="Konzertgitarren" width="100%"
-                style="max-width:175px;" /><br>Konzertgitarren
-        </a>
-        <p></p>
-        <a href="code.html">✨Coden✨</a>
-    </div>
-    <div class="inhalt">
-        Lied der Woche: <a href ="https://youtu.be/nfWlot6h_JM"> zum Musikvideo</a>
-        <div class="mittig">
-            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0cqRj7pUJDkTCEsJkx8snD?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-        </div>
-        
-        <p></p>
-        <p></p>
-        Vergangene Lieder der Woche:
-        <ul>
-            <li>Dua Lipa - Love Again<br>Future Nostalgia (2020)<br><a href="https://youtu.be/BC19kwABFwc">zum Musikvideo</a></li>
-        </ul>    
-            <p></p>
-            <p></p>
-       
-        <p></p>
-        <a class="backbutton" href="index-zeller.html"><img src="bilder/backarrow.png" width="17px"> Zurück zur
-            Startseite</a>
-    </div>
+  <script>
+    function searchSpotify(event) {
+      event.preventDefault();
 
+      var query = document.getElementById('query').value;
 
-    <div class="unten">
-        <a href="datenschutz.html">Datenschutz</a>
-        <a href="impressum.html">Impressum</a>
-        <a href="kontakt.html">Kontakt</a>
-    </div>
+      fetch('https://api.spotify.com/v1/search?q=' + encodeURIComponent(query) + '&type=track')
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          var results = data.tracks.items;
 
-    <span id="burgerMenu" onclick="openNav()"><img src="bilder/Hamburger_icon.png" id="burgerImg"
-            alt="Menu"><br>Menu</span>
+          // Finde das beste Suchergebnis
+          var bestResult = results[0];
 
-    <p></p>
+          // Erstelle das Spotify Embed-HTML
+          var embedHTML = '<iframe src="https://open.spotify.com/embed/track/' + bestResult.id + '" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>';
+
+          // Zeige das Embed auf der Seite an
+          var resultsDiv = document.getElementById('results');
+          resultsDiv.innerHTML = embedHTML;
+        })
+        .catch(function(error) {
+          console.error(error);
+        });
+    }
+  </script>
 </body>
-
 </html>
