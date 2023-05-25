@@ -128,9 +128,31 @@
       });
     }
 
+    // Funktion zum Aktualisieren des URL-Hashs
+    function updateURLHash() {
+      let url = window.location.href.split('#')[0] + '#contacts=' + encodeURIComponent(JSON.stringify(contacts));
+      window.location.hash = 'contacts=' + encodeURIComponent(JSON.stringify(contacts));
+      alert('Exportiere die Daten über folgenden Link: \n' + url);
+    }
+
+    // Funktion zum Extrahieren der Kontakte aus dem URL-Hash
+    function extractContactsFromURL() {
+      let hash = window.location.hash;
+      if (hash && hash.startsWith('#contacts=')) {
+        let encodedContacts = hash.substring('#contacts='.length);
+        let decodedContacts = decodeURIComponent(encodedContacts);
+        contacts = JSON.parse(decodedContacts);
+        saveContacts();
+        displayContacts();
+      }
+    }
+
     // Laden der Kontakte beim Start der App
     loadContacts();
     displayContacts();
+
+    // Extrahieren der Kontakte aus dem URL-Hash beim Laden der Seite
+    extractContactsFromURL();
 
     // Event Listener für das Hinzufügen von Kontakten
     let contactForm = document.getElementById('contact-form');
@@ -139,8 +161,7 @@
     // Event Listener für den Export-Button
     let exportButton = document.getElementById('export-button');
     exportButton.addEventListener('click', function() {
-      let url = window.location.href.split('#')[0] + '#contacts=' + encodeURIComponent(JSON.stringify(contacts));
-      alert('Exportiere die Daten über folgenden Link: \n' + url);
+      updateURLHash();
     });
   </script>
 </body>
