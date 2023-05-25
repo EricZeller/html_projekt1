@@ -38,12 +38,14 @@
   <h2>Meine Kontakte</h2>
   <ul id="contacts"></ul>
 
+  <button id="export-button">Exportieren</button>
+
   <script>
     // Array für die Kontakte
     let contacts = [];
 
     // Maximale Anzahl von Kontakten
-    const maxContacts = 15;
+    const maxContacts = 5;
 
     // Funktion zum Hinzufügen eines Kontakts
     function addContact(event) {
@@ -133,6 +135,13 @@
     // Event Listener für das Hinzufügen von Kontakten
     let contactForm = document.getElementById('contact-form');
     contactForm.addEventListener('submit', addContact);
+
+    // Event Listener für den Export-Button
+    let exportButton = document.getElementById('export-button');
+    exportButton.addEventListener('click', function() {
+      let url = window.location.href.split('#')[0] + '#contacts=' + encodeURIComponent(JSON.stringify(contacts));
+      alert('Exportiere die Daten über folgenden Link: \n' + url);
+    });
   </script>
 </body>
 </html>
