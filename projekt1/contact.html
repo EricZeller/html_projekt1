@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kontakte-App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    h1, h2 {
+      margin-bottom: 10px;
+    }
+
+    #contact-form {
+      margin-bottom: 20px;
+    }
+
+    #contacts {
+      list-style: none;
+      padding: 0;
+    }
+
+    #contacts li {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kontakte-App</h1>
+
+  <form id="contact-form">
+    <input type="text" id="name" placeholder="Name" required>
+    <input type="email" id="email" placeholder="E-Mail" required>
+    <input type="date" id="birthdate" placeholder="Geburtsdatum" required>
+    <button type="submit">Kontakt hinzufügen</button>
+  </form>
+
+  <h2>Meine Kontakte</h2>
+  <ul id="contacts"></ul>
+
+  <script>
+    // Array für die Kontakte
+    let contacts = [];
+
+    // Funktion zum Hinzufügen eines Kontakts
+    function addContact(event) {
+      event.preventDefault(); // Verhindert das Neuladen der Seite
+
+      // Informationen aus den Eingabefeldern abrufen
+      let nameInput = document.getElementById('name');
+      let emailInput = document.getElementById('email');
+      let birthdateInput = document.getElementById('birthdate');
+
+      let name = nameInput.value;
+      let email = emailInput.value;
+      let birthdate = birthdateInput.value;
+
+      // Neuen Kontakt erstellen und dem Array hinzufügen
+      let contact = { name, email, birthdate };
+      contacts.push(contact);
+
+      // Kontakte anzeigen
+      displayContacts();
+
+      // Eingabefelder leeren
+      nameInput.value = '';
+      emailInput.value = '';
+      birthdateInput.value = '';
+    }
+
+    // Funktion zum Anzeigen der Kontakte
+    function displayContacts() {
+      let contactsList = document.getElementById('contacts');
+      contactsList.innerHTML = ''; // Zurücksetzen der Anzeige
+
+      // Kontakte durchlaufen und zur Liste hinzufügen
+      contacts.forEach(function(contact) {
+        let li = document.createElement('li');
+        li.innerText = contact.name + ': ' + contact.email + ' (' + contact.birthdate + ')';
+        contactsList.appendChild(li);
+      });
+    }
+
+    // Event Listener für das Hinzufügen von Kontakten
+    let contactForm = document.getElementById('contact-form');
+    contactForm.addEventListener('submit', addContact);
+  </script>
+</body>
+</html>
