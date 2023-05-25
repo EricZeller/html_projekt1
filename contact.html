@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
+<html><head>
   <title>Kontakte-App</title>
   <style>
     body {
@@ -55,22 +53,22 @@
 </head>
 <body>
   <div class="container">
-    <div class="contacts">
-      <ul id="contacts"></ul>
-
-      <form id="contact-form">
-        <input type="text" id="name" placeholder="Name" required>
-        <input type="email" id="email" placeholder="E-Mail" required>
-        <input type="date" id="birthdate" placeholder="Geburtsdatum" required>
-        <button type="submit">Kontakt hinzufügen</button>
-      </form>
-    </div>
+    
 
     <div class="link-container">
-      <input type="text" id="export-field" readonly>
+      <input type="text" id="export-field" readonly="">
       <button id="copy-button">Kopieren</button>
     </div>
-  </div>
+  <div class="contacts">
+      
+
+      <form id="contact-form">
+        <input type="text" id="name" placeholder="Name" required="">
+        <input type="email" id="email" placeholder="E-Mail" required="">
+        <input type="date" id="birthdate" placeholder="Geburtsdatum" required="">
+        <button type="submit">Kontakt hinzufügen</button>
+      </form>
+    </div><ul id="contacts" style="list-style-type: none; padding-left: 0;"><li>max: max.mustermann@gmail.com (2010-05-25)<button style="display: inline-block; margin-left: ;">Löschen</button></li></ul></div>
 
   <script>
     // Array für die Kontakte
@@ -200,5 +198,6 @@
       alert('Die URL wurde in die Zwischenablage kopiert.');
     });
   </script>
-</body>
-</html>
+
+
+</body></html>
