@@ -23,6 +23,21 @@
     #contacts li {
       margin-bottom: 5px;
     }
+
+    #export-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    #export-field {
+      flex-grow: 1;
+      margin-right: 10px;
+    }
+
+    #copy-button {
+      padding: 5px 10px;
+    }
   </style>
 </head>
 <body>
@@ -38,7 +53,10 @@
   <h2>Meine Kontakte</h2>
   <ul id="contacts"></ul>
 
-  <button id="export-button">Exportieren</button>
+  <div id="export-container">
+    <input type="text" id="export-field" readonly>
+    <button id="copy-button">Kopieren</button>
+  </div>
 
   <script>
     // Array für die Kontakte
@@ -115,14 +133,14 @@
       contacts.forEach(function(contact, index) {
         let li = document.createElement('li');
         li.innerText = contact.name + ': ' + contact.email + ' (' + contact.birthdate + ')';
-        
+
         // Löschen-Button erstellen und Event Listener hinzufügen
         let deleteButton = document.createElement('button');
         deleteButton.innerText = 'Löschen';
         deleteButton.addEventListener('click', function() {
           deleteContact(index);
         });
-        
+
         li.appendChild(deleteButton);
         contactsList.appendChild(li);
       });
@@ -132,7 +150,7 @@
     function updateURLHash() {
       let url = window.location.href.split('#')[0] + '#contacts=' + encodeURIComponent(JSON.stringify(contacts));
       window.location.hash = 'contacts=' + encodeURIComponent(JSON.stringify(contacts));
-      alert('Exportiere die Daten über folgenden Link: \n' + url);
+      document.getElementById('export-field').value = url;
     }
 
     // Funktion zum Extrahieren der Kontakte aus dem URL-Hash
@@ -144,6 +162,7 @@
         contacts = JSON.parse(decodedContacts);
         saveContacts();
         displayContacts();
+        document.getElementById('export-field').value = window.location.href;
       }
     }
 
@@ -158,10 +177,13 @@
     let contactForm = document.getElementById('contact-form');
     contactForm.addEventListener('submit', addContact);
 
-    // Event Listener für den Export-Button
-    let exportButton = document.getElementById('export-button');
-    exportButton.addEventListener('click', function() {
-      updateURLHash();
+    // Event Listener für den Kopieren-Button
+    let copyButton = document.getElementById('copy-button');
+    copyButton.addEventListener('click', function() {
+      let exportField = document.getElementById('export-field');
+      exportField.select();
+      document.execCommand('copy');
+      alert('Die URL wurde in die Zwischenablage kopiert.');
     });
   </script>
 </body>
