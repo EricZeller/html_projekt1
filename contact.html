@@ -42,9 +42,18 @@
     // Array für die Kontakte
     let contacts = [];
 
+    // Maximale Anzahl von Kontakten
+    const maxContacts = 15;
+
     // Funktion zum Hinzufügen eines Kontakts
     function addContact(event) {
       event.preventDefault(); // Verhindert das Neuladen der Seite
+
+      // Überprüfen, ob die maximale Anzahl von Kontakten erreicht ist
+      if (contacts.length >= maxContacts) {
+        alert('Maximale Anzahl von Kontakten erreicht.');
+        return;
+      }
 
       // Informationen aus den Eingabefeldern abrufen
       let nameInput = document.getElementById('name');
@@ -59,6 +68,9 @@
       let contact = { name, email, birthdate };
       contacts.push(contact);
 
+      // Kontakte im LocalStorage speichern
+      saveContacts();
+
       // Kontakte anzeigen
       displayContacts();
 
@@ -66,6 +78,30 @@
       nameInput.value = '';
       emailInput.value = '';
       birthdateInput.value = '';
+
+      // Aktualisierten LocalStorage im URL-Hash speichern
+      updateURLHash();
+    }
+
+    // Funktion zum Löschen eines Kontakts
+    function deleteContact(index) {
+      contacts.splice(index, 1); // Entfernt den Kontakt aus dem Array
+      saveContacts(); // Speichert die aktualisierten Kontakte im LocalStorage
+      displayContacts(); // Aktualisiert die Anzeige der Kontakte
+      updateURLHash(); // Aktualisiert den URL-Hash
+    }
+
+    // Funktion zum Speichern der Kontakte im LocalStorage
+    function saveContacts() {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+    }
+
+    // Funktion zum Laden der Kontakte aus dem LocalStorage
+    function loadContacts() {
+      let savedContacts = localStorage.getItem('contacts');
+      if (savedContacts) {
+        contacts = JSON.parse(savedContacts);
+      }
     }
 
     // Funktion zum Anzeigen der Kontakte
@@ -74,12 +110,25 @@
       contactsList.innerHTML = ''; // Zurücksetzen der Anzeige
 
       // Kontakte durchlaufen und zur Liste hinzufügen
-      contacts.forEach(function(contact) {
+      contacts.forEach(function(contact, index) {
         let li = document.createElement('li');
         li.innerText = contact.name + ': ' + contact.email + ' (' + contact.birthdate + ')';
+        
+        // Löschen-Button erstellen und Event Listener hinzufügen
+        let deleteButton = document.createElement('button');
+        deleteButton.innerText = 'Löschen';
+        deleteButton.addEventListener('click', function() {
+          deleteContact(index);
+        });
+        
+        li.appendChild(deleteButton);
         contactsList.appendChild(li);
       });
     }
+
+    // Laden der Kontakte beim Start der App
+    loadContacts();
+    displayContacts();
 
     // Event Listener für das Hinzufügen von Kontakten
     let contactForm = document.getElementById('contact-form');
